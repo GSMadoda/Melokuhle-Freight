@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Melokuhle Freight</title>
+<meta name="description" content="Melokuhle Freight — road, sea and cross-border freight between South Africa and the DRC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: white editorial canvas, oversized grotesk statements, big rounded colour tiles; one animated corridor map as the hero moment */
+:root{
+  --bg:#ffffff; --bg-alt:#f4f6f2; --ink:#0f1a14; --ink-soft:#4a564e; --line:#dfe4dc;
+  --green:#1f6b38; --green-deep:#143f24; --gold:#c49a2c; --gold-ink:#7a5c10;
+  --mint:#dcebdf; --sand:#f3e9cc; --on-dark:#f4f7f2; --chip:#ffffff;
+  --display:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;
+  --body:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --r-xl:36px; --r-lg:24px; --max:1240px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1410; --bg-alt:#131c16; --ink:#edf2ec; --ink-soft:#a7b3aa; --line:#25312a;
+  --green:#3f9e62; --green-deep:#173d25; --gold:#d8b452; --gold-ink:#e4c46e;
+  --mint:#1b2e21; --sand:#2e2814; --on-dark:#f4f7f2; --chip:#ffffff; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1410; --bg-alt:#131c16; --ink:#edf2ec; --ink-soft:#a7b3aa; --line:#25312a;
+  --green:#3f9e62; --green-deep:#173d25; --gold:#d8b452; --gold-ink:#e4c46e;
+  --mint:#1b2e21; --sand:#2e2814; --on-dark:#f4f7f2; --chip:#ffffff; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+a{color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:.98;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* NAV */
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+header.nav.scrolled{border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;gap:24px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.brand-chip{width:52px;height:44px;border-radius:12px;background:var(--chip);display:grid;place-items:center;overflow:hidden;flex-shrink:0}
+.brand-chip img{width:46px;height:auto}
+.brand-name{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1}
+.brand-name small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+.nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.nav-links a{text-decoration:none;font-weight:500;font-size:15px;position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:2px;background:var(--gold);transition:right .25s}
+.nav-links a:hover::after{right:0}
+.lang{display:flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.lang button{font:600 12px/1 var(--mono);letter-spacing:.06em;padding:8px 11px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--body);padding:15px 22px;border-radius:999px;text-decoration:none;border:1.5px solid transparent;transition:transform .2s,background .2s,color .2s;white-space:nowrap;cursor:pointer}
+.btn:hover{transform:translateY(-2px)}
+.btn-ink{background:var(--ink);color:var(--bg)}
+.btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-ghost:hover{background:var(--ink);color:var(--bg)}
+.btn-gold{background:var(--gold);color:#1a1405}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer;color:var(--ink)}
+.burger svg{width:26px;height:26px}
+.mmenu{border-top:1px solid var(--line);padding-block:12px 24px}
+.mmenu a{display:block;font-family:var(--display);font-weight:600;font-size:28px;letter-spacing:-.02em;text-decoration:none;padding:8px 0}
+.mmenu .row{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+
+/* HERO */
+.hero{padding-block:56px 40px}
+.hero-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.hero h1{font-size:clamp(46px,8.6vw,132px);max-width:13ch}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero-sub{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:end;margin-top:36px}
+.hero-sub p{font-size:clamp(18px,1.6vw,22px);color:var(--ink-soft);max-width:34ch}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+
+/* CORRIDOR MAP TILE */
+.corridor{margin-top:48px;border-radius:var(--r-xl);background:var(--green-deep);color:var(--on-dark);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);overflow:hidden;min-height:420px}
+.corridor-copy{padding:44px;display:flex;flex-direction:column;gap:22px;justify-content:space-between}
+.corridor-copy .label{color:color-mix(in srgb,var(--on-dark) 65%,transparent)}
+.corridor-copy h2{font-size:clamp(30px,3.2vw,46px);color:var(--on-dark)}
+.stops{list-style:none;margin:0;padding:0;display:grid;gap:0;font-family:var(--mono);font-size:13px}
+.stops li{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.12);align-items:baseline}
+.stops li span:first-child{color:#e8c86a}
+.stops li span:last-child{color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.map{position:relative;background:color-mix(in srgb,var(--green-deep) 80%,#000);min-height:340px}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* PROMISE STRIP */
+.promise{padding-block:96px 40px}
+.promise-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:48px;align-items:start}
+.promise blockquote{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(30px,3.8vw,56px);line-height:1.04;letter-spacing:-.025em;text-wrap:balance}
+.promise blockquote span{color:var(--gold-ink)}
+.promise-note{margin-top:24px;color:var(--ink-soft);max-width:52ch}
+
+/* PEOPLE */
+.section{padding-block:72px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head h2{font-size:clamp(38px,5.4vw,80px);max-width:14ch}
+.sec-head p{max-width:40ch;color:var(--ink-soft)}
+.people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.person{border-radius:var(--r-lg);padding:32px;display:flex;flex-direction:column;gap:18px;min-height:340px}
+.person:nth-child(1){background:var(--mint)}
+.person:nth-child(2){background:var(--sand)}
+.person:nth-child(3){background:var(--bg-alt)}
+.person .who{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;line-height:1.05}
+.person .need{font-size:16px;color:var(--ink-soft)}
+.person .answer{margin-top:auto;padding-top:18px;border-top:1.5px solid color-mix(in srgb,var(--ink) 18%,transparent);font-weight:500;font-size:15px}
+.person .answer b{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:block;color:var(--ink-soft);margin-bottom:6px}
+
+/* SERVICES */
+.services{background:var(--bg-alt)}
+.svc-list{border-top:1.5px solid var(--ink)}
+.svc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) 200px;gap:32px;align-items:center;padding:30px 0;border-bottom:1px solid var(--line);transition:padding .25s}
+.svc:hover{padding-left:12px}
+.svc h3{font-size:clamp(26px,3vw,42px)}
+.svc p{color:var(--ink-soft);font-size:16px;max-width:52ch}
+.svc .tagset{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg);white-space:nowrap}
+
+/* PROCESS */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1.5px solid var(--ink)}
+.step{padding:28px 24px 8px 0;display:flex;flex-direction:column;gap:14px}
+.step + .step{padding-left:24px;border-left:1px solid var(--line)}
+.step .n{font-family:var(--mono);font-size:13px;color:var(--gold-ink)}
+.step h3{font-size:30px}
+.step p{color:var(--ink-soft);font-size:16px}
+
+/* FLEET */
+.fleet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.unit{border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
+.unit-art{aspect-ratio:16/9;max-width:100%;background:var(--bg-alt);display:grid;place-items:center;color:var(--green)}
+.unit-art svg{width:72%;height:auto}
+.unit-body{padding:24px;display:grid;gap:8px}
+.unit-body h3{font-size:26px}
+.unit-body p{color:var(--ink-soft);font-size:15px}
+.spec{font-family:var(--mono);font-size:12px;color:var(--ink);margin-top:6px}
+
+/* CTA */
+.cta{padding-block:40px 96px}
+.cta-tile{border-radius:var(--r-xl);background:var(--gold);color:#1a1405;padding:clamp(32px,6vw,80px);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:end}
+.cta-tile h2{font-size:clamp(44px,7vw,108px);color:#1a1405}
+.cta-tile p{font-size:18px;max-width:36ch;margin-bottom:24px;color:#2d240b}
+.cta-tile .btn-ink{background:#1a1405;color:#fff}
+.cta-tile .small{font-family:var(--mono);font-size:12px;margin-top:16px;color:#3d3212}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding-block:56px 32px}
+.f-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:40px}
+.f-logo{width:132px;border-radius:18px;background:var(--chip);padding:8px}
+.f-grid h4{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px}
+.f-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.f-grid a{text-decoration:none}
+.f-grid a:hover{color:var(--green)}
+.f-tag{margin-top:16px;color:var(--ink-soft);font-size:15px;max-width:30ch}
+.f-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+.selectable{user-select:all}
+
+/* FLOAT */
+.float{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .2s}
+.float:hover{transform:scale(1.08)}
+.float svg{width:28px;height:28px}
+
+/* REVEAL (visible at rest; only lifts in) */
+.rise{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.rise.d1{animation-delay:.08s}.rise.d2{animation-delay:.16s}.rise.d3{animation-delay:.24s}
+@keyframes rise{from{transform:translateY(18px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* RESPONSIVE */
+@media (max-width:980px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+  .hero-sub,.corridor,.promise-grid,.cta-tile{grid-template-columns:1fr}
+  .hero-ctas{justify-content:flex-start}
+  .people,.fleet{grid-template-columns:1fr 1fr}
+  .people .person:last-child,.fleet .unit:last-child{grid-column:1/-1}
+  .steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(3){padding-left:0;border-left:0}
+  .step:nth-child(n+3){border-top:1px solid var(--line)}
+  .svc{grid-template-columns:1fr;gap:12px}
+  .svc .tagset{justify-content:flex-start}
+  .f-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .nav-in .lang{display:none}
+  .people,.fleet,.steps{grid-template-columns:1fr}
+  .people .person:last-child,.fleet .unit:last-child{grid-column:auto}
+  .step + .step{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .corridor-copy{padding:28px}
+  .stops li{grid-template-columns:88px minmax(0,1fr) auto}
+  .f-grid{grid-template-columns:1fr}
+  .person{min-height:0}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.42.25-.69.25-1.29.18-1.41-.08-.12-.28-.2-.57-.35zM12 0C5.37 0 0 5.37 0 12c0 2.14.56 4.14 1.54 5.88L0 24l6.29-1.52A11.94 11.94 0 0012 24c6.63 0 12-5.37 12-12S18.63 0 12 0zm0 21.82c-1.96 0-3.79-.54-5.34-1.47l-.38-.23-3.97.96 1-3.84-.25-.4A9.79 9.79 0 012.18 12C2.18 6.57 6.57 2.18 12 2.18S21.82 6.57 21.82 12 17.43 21.82 12 21.82z"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <a href="#top" class="brand" aria-label="Melokuhle Freight home">
+        <span class="brand-chip"><img src="assets/logo.jpg" alt=""></span>
+        <span class="brand-name">Melokuhle Freight<small data-k="brandSub">SA · DRC freight</small></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#people" data-k="navPeople">Who we serve</a></li>
+        <li><a href="#services" data-k="navServices">Services</a></li>
+        <li><a href="#process" data-k="navProcess">How we work</a></li>
+        <li><a href="#fleet" data-k="navFleet">Fleet</a></li>
+        <li><a href="#contact" data-k="navContact">Contact</a></li>
+      </ul>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      </div>
+      <a class="btn btn-ink nav-cta" target="_blank" rel="noopener" href="https://wa.me/27000000000?text=Hello%2C%20I%20would%20like%20a%20freight%20quote."><span data-k="quote">Get a quote</span></a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mmenu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+      </button>
+    </div>
+    <nav class="mmenu" id="mmenu" hidden>
+      <a href="#people" data-k="navPeople">Who we serve</a>
+      <a href="#services" data-k="navServices">Services</a>
+      <a href="#process" data-k="navProcess">How we work</a>
+      <a href="#fleet" data-k="navFleet">Fleet</a>
+      <a href="#contact" data-k="navContact">Contact</a>
+      <div class="row">
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+        <a class="btn btn-ink" target="_blank" rel="noopener" href="https://wa.me/27000000000?text=Hello%2C%20I%20would%20like%20a%20freight%20quote."><span data-k="quote">Get a quote</span></a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-top rise">
+        <span class="label" data-k="eyebrow">Road · Sea · Cross-border — South Africa ⇄ DR Congo</span>
+        <span class="label" data-k="tagline">Your goods, our priority</span>
+      </div>
+      <h1 class="rise d1" data-k="h1">We move what matters <em>between Joburg and the Copperbelt.</em></h1>
+      <div class="hero-sub rise d2">
+        <p data-k="heroP">Freight is never just boxes. It's a mine waiting on a part, a shop waiting on stock, a family business waiting to get paid. We plan every load around the people at both ends of the road.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-ink" target="_blank" rel="noopener" href="https://wa.me/27000000000?text=Hello%2C%20I%20would%20like%20a%20freight%20quote."><svg><use href="#wa"/></svg><span data-k="ctaWa">Quote on WhatsApp</span></a>
+          <a class="btn btn-ghost" href="#services"><span data-k="ctaSvc">See our services</span><svg><use href="#arrow"/></svg></a>
+        </div>
+      </div>
+
+      <div class="corridor rise d3" aria-label="North–South corridor map">
+        <div class="corridor-copy">
+          <span class="label" data-k="corLabel">Our main corridor</span>
+          <h2 data-k="corH">Johannesburg to Lubumbashi, four borders, one team watching the load.</h2>
+          <ul class="stops">
+            <li><span>JHB</span><span data-k="s1">Collection &amp; loading</span><span>0 km</span></li>
+            <li><span>Beitbridge</span><span data-k="s2">SA → Zimbabwe</span><span>≈ 530 km</span></li>
+            <li><span>Chirundu</span><span data-k="s3">Zimbabwe → Zambia</span><span>≈ 1,350 km</span></li>
+            <li><span>Kasumbalesa</span><span data-k="s4">Zambia → DRC</span><span>≈ 2,350 km</span></li>
+            <li><span>Lubumbashi</span><span data-k="s5">Delivery &amp; sign-off</span><span>≈ 2,450 km</span></li>
+          </ul>
+        </div>
+        <div class="map">
+          <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Route line from Johannesburg north through Beitbridge, Chirundu and Kasumbalesa to Lubumbashi">
+            <defs>
+              <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="rgba(255,255,255,.10)"/></pattern>
+            </defs>
+            <rect width="600" height="460" fill="url(#dots)"/>
+            <!-- country hints -->
+            <g fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1.2" stroke-dasharray="3 5">
+              <path d="M40 360 C160 340 300 345 560 330"/>
+              <path d="M60 250 C200 235 330 240 560 225"/>
+              <path d="M40 130 C190 120 330 125 560 112"/>
+            </g>
+            <g font-family="IBM Plex Mono, monospace" font-size="11" fill="rgba(255,255,255,.38)" letter-spacing="1.5">
+              <text x="470" y="420">SOUTH AFRICA</text>
+              <text x="470" y="300">ZIMBABWE</text>
+              <text x="470" y="185">ZAMBIA</text>
+              <text x="470" y="70">DR CONGO</text>
+            </g>
+            <!-- route -->
+            <path id="route" d="M190 415 C230 380 250 365 260 345 C285 300 250 270 245 240 C238 190 300 160 320 120 C335 90 330 70 345 48" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="10" stroke-linecap="round"/>
+            <path id="routeLive" d="M190 415 C230 380 250 365 260 345 C285 300 250 270 245 240 C238 190 300 160 320 120 C335 90 330 70 345 48" fill="none" stroke="#e8c86a" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/>
+            <!-- stops -->
+            <g font-family="IBM Plex Mono, monospace" font-size="12" fill="#f4f7f2">
+              <circle cx="190" cy="415" r="7" fill="#e8c86a"/><text x="206" y="419">Johannesburg</text>
+              <circle cx="260" cy="345" r="5" fill="#f4f7f2"/><text x="276" y="349">Beitbridge</text>
+              <circle cx="245" cy="240" r="5" fill="#f4f7f2"/><text x="120" y="244">Chirundu</text>
+              <circle cx="320" cy="120" r="5" fill="#f4f7f2"/><text x="336" y="124">Kasumbalesa</text>
+              <circle cx="345" cy="48" r="7" fill="#e8c86a"/><text x="361" y="52">Lubumbashi</text>
+            </g>
+            <!-- moving truck -->
+            <g id="truck">
+              <circle r="13" fill="#e8c86a"/>
+              <path d="M-6 -3h7v6h-7zM1 -1h3l2 2v2h-5z" fill="#143f24"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMISE -->
+  <section class="promise">
+    <div class="wrap promise-grid">
+      <span class="label" data-k="promLabel">What we believe</span>
+      <div>
+        <blockquote data-k="promQ">A border delay is a human problem first. <span>So we answer the phone like it is.</span></blockquote>
+        <p class="promise-note" data-k="promNote">Clearing agents, drivers, warehouse teams and customers all touch one shipment. We keep them on the same page with one point of contact and plain updates on WhatsApp, from loading to sign-off.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEOPLE -->
+  <section class="section" id="people">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-k="pplH">Designed around the people who wait for the truck.</h2>
+        <p data-k="pplP">We started by asking who feels it when cargo is late. These are the customers we build our service around.</p>
+      </div>
+      <div class="people">
+        <article class="person">
+          <span class="label" data-k="p1L">Mining &amp; industrial</span>
+          <div class="who" data-k="p1W">The site buyer in Kolwezi</div>
+          <p class="need" data-k="p1N">“If a spare part sits at Kasumbalesa for a week, the plant stands still.”</p>
+          <p class="answer"><b data-k="howL">How we help</b><span data-k="p1A">Pre-cleared paperwork, flat-deck and abnormal loads, and a named contact on the DRC side.</span></p>
+        </article>
+        <article class="person">
+          <span class="label" data-k="p2L">Retail &amp; distribution</span>
+          <div class="who" data-k="p2W">The wholesaler restocking Lubumbashi</div>
+          <p class="need" data-k="p2N">“I need to know which day the stock lands so I can tell my customers.”</p>
+          <p class="answer"><b data-k="howL">How we help</b><span data-k="p2A">Scheduled departures, consolidated part loads and arrival updates you can forward.</span></p>
+        </article>
+        <article class="person">
+          <span class="label" data-k="p3L">Importers &amp; traders</span>
+          <div class="who" data-k="p3W">The trader shipping through Durban</div>
+          <p class="need" data-k="p3N">“Port, customs, then the road. I want one partner, not five.”</p>
+          <p class="answer"><b data-k="howL">How we help</b><span data-k="p3A">FCL and LCL sea freight with port handling and onward road delivery in one quote.</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-k="svcH">Six ways to move it.</h2>
+        <p data-k="svcP">From a single pallet to a full container. Pick one service or combine several into a single door-to-door plan.</p>
+      </div>
+      <div class="svc-list">
+        <div class="svc"><h3 data-k="v1">Road freight</h3><p data-k="v1d">Full and part loads on South African routes and across the border into the DRC, door to door.</p><div class="tagset"><span class="tag">FTL</span><span class="tag">LTL</span></div></div>
+        <div class="svc"><h3 data-k="v2">Sea freight</h3><p data-k="v2d">Container shipping through Durban and Cape Town, with customs handled and onward delivery arranged.</p><div class="tagset"><span class="tag">FCL 20′/40′</span><span class="tag">LCL</span></div></div>
+        <div class="svc"><h3 data-k="v3">Cross-border transport</h3><p data-k="v3d">SA–DRC runs through Beitbridge, Chirundu and Kasumbalesa, with transit documents prepared before the truck leaves.</p><div class="tagset"><span class="tag">SADC</span><span class="tag">T1 / transit</span></div></div>
+        <div class="svc"><h3 data-k="v4">Cargo logistics</h3><p data-k="v4d">Warehousing, consolidation, documentation and customs clearance, managed as one job.</p><div class="tagset"><span class="tag" data-k="tWh">Warehousing</span><span class="tag" data-k="tCc">Clearing</span></div></div>
+        <div class="svc"><h3 data-k="v5">Commercial deliveries</h3><p data-k="v5d">Regular delivery routes for businesses that need the same reliable slot every week.</p><div class="tagset"><span class="tag" data-k="tSch">Scheduled</span></div></div>
+        <div class="svc"><h3 data-k="v6">Dedicated fleet</h3><p data-k="v6d">Trucks and drivers assigned to your routes or project, for as long as the work runs.</p><div class="tagset"><span class="tag" data-k="tCon">Contract</span><span class="tag" data-k="tPrj">Project</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-k="prH">How a shipment goes.</h2>
+        <p data-k="prP">Four steps, the same every time, so you always know what happens next.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><h3 data-k="st1">Listen</h3><p data-k="st1d">Send us what, where and when on WhatsApp. We ask about the deadline behind the date.</p></div>
+        <div class="step"><span class="n">02</span><h3 data-k="st2">Plan</h3><p data-k="st2d">We choose the mode and route, check the documents and send one clear quote.</p></div>
+        <div class="step"><span class="n">03</span><h3 data-k="st3">Move</h3><p data-k="st3d">Loading, border crossings and handovers, with an update at every milestone.</p></div>
+        <div class="step"><span class="n">04</span><h3 data-k="st4">Close</h3><p data-k="st4d">Signed proof of delivery and paperwork returned, so your books close cleanly.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLEET -->
+  <section class="section" id="fleet" style="padding-top:24px">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-k="flH">The equipment.</h2>
+        <p data-k="flP">Maintained vehicles and containers matched to the cargo and the road it travels.</p>
+      </div>
+      <div class="fleet">
+        <article class="unit">
+          <div class="unit-art"><svg viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="10" y="44" width="140" height="10" rx="2" fill="currentColor"/><path d="M150 54V26h30l24 18v10z"/><path d="M162 30h16l16 12h-32z" fill="currentColor" opacity=".25"/><circle cx="40" cy="66" r="10"/><circle cx="66" cy="66" r="10"/><circle cx="178" cy="66" r="10"/><rect x="22" y="30" width="44" height="14"/><rect x="72" y="22" width="60" height="22"/></svg></div>
+          <div class="unit-body"><h3 data-k="u1">Flat-deck trucks</h3><p data-k="u1d">Machinery, steel and abnormal loads.</p><span class="spec" data-k="u1s">Up to 34 t payload · cross-border permits</span></div>
+        </article>
+        <article class="unit">
+          <div class="unit-art"><svg viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="10" y="14" width="140" height="40" rx="3"/><path d="M30 14v40M50 14v40M70 14v40M90 14v40M110 14v40M130 14v40" opacity=".35"/><path d="M150 54V26h30l24 18v10z"/><path d="M162 30h16l16 12h-32z" fill="currentColor" opacity=".25"/><circle cx="40" cy="66" r="10"/><circle cx="66" cy="66" r="10"/><circle cx="178" cy="66" r="10"/></svg></div>
+          <div class="unit-body"><h3 data-k="u2">Curtain-side trucks</h3><p data-k="u2d">Palletised general freight, kept dry.</p><span class="spec" data-k="u2s">Side loading · weather protected</span></div>
+        </article>
+        <article class="unit">
+          <div class="unit-art"><svg viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="20" y="16" width="180" height="56" rx="3"/><path d="M40 16v56M60 16v56M80 16v56M100 16v56M120 16v56M140 16v56M160 16v56M180 16v56" opacity=".35"/><rect x="20" y="16" width="180" height="8" fill="currentColor" opacity=".25"/></svg></div>
+          <div class="unit-body"><h3 data-k="u3">Sea containers</h3><p data-k="u3d">Ocean freight in and out of SA ports.</p><span class="spec" data-k="u3s">20′ &amp; 40′ FCL · LCL consolidation</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="quote">
+    <div class="wrap">
+      <div class="cta-tile">
+        <h2 data-k="ctaH">Tell us what needs to move.</h2>
+        <div>
+          <p data-k="ctaP">Send the cargo, pickup and destination on WhatsApp. We reply with a clear, no-obligation quote.</p>
+          <a class="btn btn-ink" target="_blank" rel="noopener" href="https://wa.me/27000000000?text=Hello%2C%20I%20would%20like%20to%20request%20a%20freight%20quote%20from%20Melokuhle%20Freight."><svg><use href="#wa"/></svg><span data-k="ctaBtn">Chat with us on WhatsApp</span></a>
+          <p class="small" data-k="ctaSmall">Our services, your solution.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <img class="f-logo" src="assets/logo.jpg" alt="Melokuhle Freight Pty Ltd logo">
+        <p class="f-tag" data-k="fTag">Road, sea and cross-border freight connecting South Africa and the Democratic Republic of Congo.</p>
+      </div>
+      <div>
+        <h4 data-k="navServices">Services</h4>
+        <ul>
+          <li><a href="#services" data-k="v1">Road freight</a></li>
+          <li><a href="#services" data-k="v2">Sea freight</a></li>
+          <li><a href="#services" data-k="v3">Cross-border transport</a></li>
+          <li><a href="#services" data-k="v4">Cargo logistics</a></li>
+          <li><a href="#services" data-k="v6">Dedicated fleet</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-k="fOffices">Offices</h4>
+        <ul>
+          <li data-k="fJhb">Johannesburg, South Africa</li>
+          <li data-k="fLub">Lubumbashi, DR Congo</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li class="selectable">+27 00 000 0000</li>
+          <li class="selectable">info@melokuhlefreight.co.za</li>
+          <li><a target="_blank" rel="noopener" href="https://wa.me/27000000000" data-k="fWa">WhatsApp us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span data-k="fCopy">© 2026 Melokuhle Freight (Pty) Ltd. All rights reserved.</span>
+      <span data-k="tagline">Your goods, our priority</span>
+    </div>
+  </div>
+</footer>
+
+<a class="float" target="_blank" rel="noopener" aria-label="WhatsApp" href="https://wa.me/27000000000?text=Hello%2C%20I%20would%20like%20a%20freight%20quote%20from%20Melokuhle%20Freight."><svg><use href="#wa"/></svg></a>
+
+<script>
+const FR={
+  brandSub:"Fret SA · RDC",navPeople:"Nos clients",navServices:"Services",navProcess:"Notre méthode",navFleet:"Flotte",navContact:"Contact",
+  quote:"Obtenir un devis",eyebrow:"Route · Mer · Transfrontalier — Afrique du Sud ⇄ RD Congo",tagline:"Vos marchandises, notre priorité",
+  h1:"Nous transportons l'essentiel <em>entre Joburg et le Copperbelt.</em>",
+  heroP:"Le fret, ce n'est jamais que des cartons. C'est une mine qui attend une pièce, un magasin qui attend son stock, une entreprise familiale qui attend d'être payée. Nous planifions chaque chargement autour des personnes aux deux bouts de la route.",
+  ctaWa:"Devis sur WhatsApp",ctaSvc:"Voir nos services",corLabel:"Notre corridor principal",
+  corH:"De Johannesburg à Lubumbashi : quatre frontières, une équipe qui suit le chargement.",
+  s1:"Enlèvement et chargement",s2:"SA → Zimbabwe",s3:"Zimbabwe → Zambie",s4:"Zambie → RDC",s5:"Livraison et signature",
+  promLabel:"Ce que nous croyons",promQ:"Un retard à la frontière est d'abord un problème humain. <span>Alors nous répondons au téléphone comme tel.</span>",
+  promNote:"Transitaires, chauffeurs, entrepôts et clients touchent tous une même expédition. Nous les gardons alignés avec un seul interlocuteur et des mises à jour claires sur WhatsApp, du chargement à la signature.",
+  pplH:"Pensé pour ceux qui attendent le camion.",pplP:"Nous avons commencé par une question : qui souffre quand la cargaison est en retard ? Voici les clients autour desquels nous construisons notre service.",
+  p1L:"Mines et industrie",p1W:"L'acheteur du site à Kolwezi",p1N:"« Si une pièce reste une semaine à Kasumbalesa, l'usine s'arrête. »",p1A:"Documents pré-dédouanés, plateaux et charges exceptionnelles, et un contact dédié côté RDC.",
+  howL:"Notre réponse",p2L:"Commerce et distribution",p2W:"Le grossiste qui réapprovisionne Lubumbashi",p2N:"« J'ai besoin de savoir quel jour le stock arrive pour prévenir mes clients. »",p2A:"Départs programmés, groupage et avis d'arrivée à transmettre.",
+  p3L:"Importateurs et négociants",p3W:"Le négociant qui expédie via Durban",p3N:"« Port, douane, puis la route. Je veux un seul partenaire, pas cinq. »",p3A:"Fret maritime FCL et LCL avec manutention portuaire et livraison routière dans un seul devis.",
+  svcH:"Six façons de le transporter.",svcP:"D'une palette à un conteneur complet. Choisissez un service ou combinez-en plusieurs en un plan porte-à-porte.",
+  v1:"Fret routier",v1d:"Charges complètes et partielles en Afrique du Sud et vers la RDC, porte à porte.",
+  v2:"Fret maritime",v2d:"Conteneurs via Durban et Le Cap, douane gérée et livraison organisée.",
+  v3:"Transport transfrontalier",v3d:"Liaisons SA–RDC via Beitbridge, Chirundu et Kasumbalesa, documents de transit prêts avant le départ.",
+  v4:"Logistique cargo",v4d:"Entreposage, groupage, documentation et dédouanement, gérés comme un seul dossier.",
+  v5:"Livraisons commerciales",v5d:"Tournées régulières pour les entreprises qui ont besoin du même créneau fiable chaque semaine.",
+  v6:"Flotte dédiée",v6d:"Camions et chauffeurs affectés à vos routes ou à votre projet, aussi longtemps que nécessaire.",
+  tWh:"Entreposage",tCc:"Dédouanement",tSch:"Programmé",tCon:"Contrat",tPrj:"Projet",
+  prH:"Le parcours d'une expédition.",prP:"Quatre étapes, toujours les mêmes, pour que vous sachiez ce qui suit.",
+  st1:"Écouter",st1d:"Dites-nous quoi, où et quand sur WhatsApp. Nous demandons l'échéance derrière la date.",
+  st2:"Planifier",st2d:"Nous choisissons le mode et l'itinéraire, vérifions les documents et envoyons un devis clair.",
+  st3:"Transporter",st3d:"Chargement, frontières et transferts, avec une mise à jour à chaque étape.",
+  st4:"Clôturer",st4d:"Preuve de livraison signée et documents retournés, pour une comptabilité nette.",
+  flH:"L'équipement.",flP:"Véhicules et conteneurs entretenus, adaptés à la cargaison et à la route.",
+  u1:"Camions plateau",u1d:"Machines, acier et charges exceptionnelles.",u1s:"Jusqu'à 34 t · permis transfrontaliers",
+  u2:"Camions rideaux",u2d:"Fret palettisé, gardé au sec.",u2s:"Chargement latéral · protégé des intempéries",
+  u3:"Conteneurs maritimes",u3d:"Fret maritime depuis et vers les ports SA.",u3s:"FCL 20′ et 40′ · groupage LCL",
+  ctaH:"Dites-nous ce qu'il faut transporter.",ctaP:"Envoyez la marchandise, l'enlèvement et la destination sur WhatsApp. Nous répondons avec un devis clair et sans engagement.",
+  ctaBtn:"Discutez avec nous sur WhatsApp",ctaSmall:"Nos services, votre solution.",
+  fTag:"Fret routier, maritime et transfrontalier reliant l'Afrique du Sud et la République Démocratique du Congo.",
+  fOffices:"Bureaux",fJhb:"Johannesburg, Afrique du Sud",fLub:"Lubumbashi, RD Congo",fWa:"WhatsApp",fCopy:"© 2026 Melokuhle Freight (Pty) Ltd. Tous droits réservés."
+};
+const nodes=[...document.querySelectorAll('[data-k]')];
+nodes.forEach(n=>n.dataset.en=n.innerHTML);
+function setLang(l){
+  document.documentElement.lang=l;
+  nodes.forEach(n=>{const k=n.dataset.k;n.innerHTML=(l==='fr'&&FR[k])?FR[k]:n.dataset.en;});
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));
+  try{localStorage.setItem('mf-lang',l)}catch(e){}
+}
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+try{const s=localStorage.getItem('mf-lang');if(s==='fr')setLang('fr')}catch(e){}
+
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{passive:true});
+
+const burger=document.getElementById('burger'),mm=document.getElementById('mmenu');
+burger.addEventListener('click',()=>{const o=mm.hidden;mm.hidden=!o;burger.setAttribute('aria-expanded',o)});
+mm.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{mm.hidden=true;burger.setAttribute('aria-expanded',false)}));
+
+// Truck along the corridor
+const route=document.getElementById('route'),truck=document.getElementById('truck'),live=document.getElementById('routeLive');
+const L=route.getTotalLength();
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function place(t){const p=route.getPointAtLength(t*L);truck.setAttribute('transform',`translate(${p.x},${p.y})`);}
+if(reduce){place(.62)}else{
+  let start=null;
+  (function tick(ts){if(!start)start=ts;const t=((ts-start)/14000)%1;place(t);live.style.strokeDashoffset=-(ts/60);requestAnimationFrame(tick)})(performance.now());
+}
+</script>
+
+</body>
+</html>
